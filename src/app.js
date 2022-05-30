@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 
 app.get("/" ,(req,res) =>{
     res.json({
