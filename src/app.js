@@ -3,14 +3,16 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 
+const db = require("./Database")
+
 const PORT = process.env.PORT || 9000;
 
 app.get("/" ,(req,res) =>{
-    res.json({
-        code: 200,
-        status: "connected"
-        
-    })
+    db((result)=>{
+        console.log(result);
+        res.json(result)
+    });
+    
 })
 
 app.listen(PORT, () =>{
