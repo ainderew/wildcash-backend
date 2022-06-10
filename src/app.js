@@ -1,14 +1,20 @@
 
+const cors = require("cors")
 const express = require("express");
 const app = express();
-require("dotenv").config();
 
-const db = require("./Database")
+require("dotenv").config();
+app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.PORT || 9000;
+const db = require("./Database")
+
+// ROUTE IMPORTS
+const route_Events = require("../routes/events.route")
 
 app.get("/" ,(req,res) =>{
-    db((result)=>{
+    db("SELECT * from tblAccount",[],(result)=>{
         console.log(result);
         res.json(result)
     });
@@ -18,3 +24,6 @@ app.get("/" ,(req,res) =>{
 app.listen(PORT, () =>{
     console.log(`success! connected at port: ${PORT}`);
 })
+
+// ROUTES
+app.use("/event", route_Events);

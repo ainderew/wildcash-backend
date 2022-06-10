@@ -23,11 +23,12 @@ connection.connect((err) => {
 const db = (queryString, values, cb) => {
   connection.execute(queryString, [...values], function (err, results, fields) {
     if (err) {
-      cb(err);
+      // cb(err);
       return;
     }
 
     cb(results);
   });
 };
+
 module.exports = db;
