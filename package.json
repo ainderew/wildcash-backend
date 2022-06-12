@@ -1,0 +1,22 @@
+{
+  "name": "wildcash-backend",
+  "version": "1.0.0",
+  "description": "Backend for the wildcash app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "devStart": "nodemon src/app.js"
+  },
+  "author": "Andrew Pinon",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
