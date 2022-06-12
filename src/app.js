@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 9000;
 const db = require("./Database")
 
 // ROUTE IMPORTS
-const route_Events = require("../routes/events.route")
+const route_Events = require("../routes/events.route");
+const route_Points = require("../routes/points.route");
 
 app.get("/" ,(req,res) =>{
     db("SELECT * from tblAccount",[],(result)=>{
@@ -27,3 +28,4 @@ app.listen(PORT, () =>{
 
 // ROUTES
 app.use("/event", route_Events);
+app.use("/points", route_Points)

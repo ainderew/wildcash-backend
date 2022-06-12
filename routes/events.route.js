@@ -1,6 +1,5 @@
 const express = require("express");
 const Router = express.Router();
-const db = require("../src/Database");
 
 const {
   setEventSchedule,
