@@ -9,7 +9,6 @@ const options = {
   ssl: {},
 };
 
-
 const connection = mysql.createConnection(options);
 
 connection.connect((err) => {
@@ -22,9 +21,11 @@ connection.connect((err) => {
 });
 
 const db = (queryString, values, cb) => {
+
   connection.execute(queryString, [...values], function (err, results, fields) {
     if (err) {
-      // cb(err);
+      console.error("DB query error: " + err)
+      cb(err);
       return;
     }
 

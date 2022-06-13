@@ -1,44 +1,63 @@
-const express = require("express")
+const express = require("express");
 const Router = express.Router();
 
-const { db } = require("../src/Database")
-const { getDate } = require("../components/dateHelper")
+const db = require("../src/Database");
+const { getDate } = require("../components/dateHelper");
 
 Router.post("/send", (req, res) => {
-    const { senderID, recieverID, points } = req.body
-    const dateNow = getDate();
+  const { senderID, receiverID, points } = req.body;
+  console.log(req.body);
+  const dateNow = getDate();
+  console.log(dateNow);
 
+  const QS = `INSERT INTO tblTransactionRecords (transactionDate, senderID, receiverID, sentAmount) values (?,?,?,?)`;
+  db(QS, [dateNow, senderID, receiverID, points], (response) => {
+    if (response instanceof Error) {
+      console.error("Error at transaction Records " + response);
+    }
 
-    const QS = `INSERT INTO tblTransactionRe-ords (transactionDate, senderID, receiverID, sentAmount) values (?,?,?,?)`
-        ;
-    db(QS, [dateNow, senderID, recieverID, points], (response) => {
-        if (response instanceof error) {
-            console.error(response)
-        }
+    // const QS = `UPDATE tblAccount SET accPoints = (accPoints + ?) WHERE userIdNumber = ?;
+    //             UPDATE tblAccount SET accPoints = (accPoints - ?) WHERE userIdNumber = ?;
 
+    //     `;
 
-        const QS = `UPDATE tblAccount SET accPoints = (accPoints + ?) WHERE accID = ?;
-                    UPDATE tblAccount SET accPoints = (accPoints - ?) WHERE accID = ?;  
-        
-        `
+    //     db(QS, [points, receiverID, points, senderID], (response) => {
+    //         if (response instanceof Error) {
+    //           console.error("Error at account points deduction and addition "+response);
+    //           res.sendStatus(401);
+    //         }
 
-        db(QS, [points, recieverID, points, senderID], (response) => {
-            if (response instanceof error) {
-                console.error(response)
-            }
+    //         res.json(response);
+    //       });
 
-            res.json(response)
-        })
-        return;
-    })
+    const QS_receiver = `UPDATE tblAccount SET accPoints = (accPoints + ?) WHERE userIdNumber = ?`;
 
+    db(QS_receiver, [points, receiverID], (response) => {
+      console.log(response);
+      if (response instanceof Error) {
+        console.error(
+          "Error at account points deduction and addition " + response
+        );
+        res.sendStatus(401);
+      }
+    });
 
+    const QS_sender = ` UPDATE tblAccount SET accPoints = (accPoints - ?) WHERE userIdNumber = ?`;
+    db(QS_sender, [points, senderID], (response) => {
+      if (response instanceof Error) {
+        console.error(
+          "Error at account points deduction and addition " + response
+        );
+        res.sendStatus(401);
+      }
+    });
 
-
-
-
-})
-
-
+    res.json({ status: "success" });
+    // res.sendStatus(200,{
+    //     status: "success"
+    // })
+    return;
+  });
+});
 
 module.exports = Router;
